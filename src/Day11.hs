@@ -28,12 +28,12 @@ day11_1 :: IO Int
 day11_1 = do
     input <- lines <$> readFile "src/input11.txt"
     let rowLength = length $ head input
-    let findDifference acc previous =
+    let findDifference previous =
             let new = simulate rowLength previous
             in if previous == new then
               length $ Seq.filter (== '#') $ join new
-            else findDifference (acc + 1) new
-    pure $ findDifference 0 $ Seq.fromList $ fmap Seq.fromList input
+            else findDifference new
+    pure $ findDifference $ Seq.fromList $ fmap Seq.fromList input
 
 simulate2 :: Int -> Seq.Seq (Seq.Seq Char) -> Seq.Seq (Seq.Seq Char)
 simulate2 rowLenght arr = fmap (\(y,arr) -> fmap (changeState y) arr) $ Seq.zip (Seq.fromList [0..rowLenght]) $ fmap (Seq.zip (Seq.fromList [0..rowLenght])) arr
@@ -58,9 +58,9 @@ day11_2 :: IO Int
 day11_2 = do
     input <- lines <$> readFile "src/input11.txt"
     let rowLength = length $ head input
-    let findDifference acc previous =
+    let findDifference previous =
             let new = simulate2 rowLength previous
             in if previous == new then
               length $ Seq.filter (== '#') $ join new
-            else findDifference (acc + 1) new
-    pure $ findDifference 0 $ Seq.fromList $ fmap Seq.fromList input
+            else findDifference new
+    pure $ findDifference $ Seq.fromList $ fmap Seq.fromList input
