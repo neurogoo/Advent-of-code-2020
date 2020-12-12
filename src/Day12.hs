@@ -41,9 +41,8 @@ step2 ((xway,yway),(x,y)) ('L',val)  =
     in ((newX,newY), (x, y))
 step2 ((xway,yway),(x,y)) ('R',val) =
     let radians = (*) (pi/180.0) . fromIntegral
-        val' = val
-        newX = round (cos (radians val') * fromIntegral xway) - round (sin (radians val') * fromIntegral yway)
-        newY = round (sin (radians val') * fromIntegral xway) + round (cos (radians val') * fromIntegral yway)
+        newX = round (cos (radians val) * fromIntegral xway) - round (sin (radians val) * fromIntegral yway)
+        newY = round (sin (radians val) * fromIntegral xway) + round (cos (radians val) * fromIntegral yway)
     in ((newX,newY), (x, y))
 step2 ((xway,yway),(x,y)) ('F',val) = ((xway,yway), (x + val * xway, y + val * yway))
 step2 xs _                                 = xs
