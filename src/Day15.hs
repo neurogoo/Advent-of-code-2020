@@ -1,7 +1,5 @@
 module Day15 where
 
-import           Debug.Trace
-
 import qualified Data.IntMap as Map
 
 toMap :: Int -> [Int] -> Int
