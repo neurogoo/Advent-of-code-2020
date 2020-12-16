@@ -23,11 +23,9 @@ parseData = A.parseOnly $ Info
   where
     rules = many $ do
         rule <- A.takeTill (== ':') <* A.string ": "
-        lower1 <- A.decimal <* A.string "-"
-        lower2 <- A.decimal <* A.string " or "
-        upper1 <- A.decimal <* A.string "-"
-        upper2 <- A.decimal <* A.skipSpace
-        pure (rule, ((lower1,lower2), (upper1,upper2)))
+        lower <- (,) <$> (A.decimal <* A.string "-") <*> (A.decimal <* A.string " or ")
+        upper <- (,) <$> (A.decimal <* A.string "-") <*> (A.decimal <* A.skipSpace)
+        pure (rule, (lower, upper))
     ticketNumbers = do
         line <- A.takeTill A.isEndOfLine
         A.skipSpace
