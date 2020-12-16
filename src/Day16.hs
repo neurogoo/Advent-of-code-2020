@@ -17,7 +17,7 @@ data Info = Info
 
 parseData :: T.Text -> Either String Info
 parseData = A.parseOnly $ Info
-    <$> (rules <* A.skipSpace)
+    <$> rules
     <*> myTicket
     <*> nearbyTickets
   where
