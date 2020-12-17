@@ -11,21 +11,21 @@ neighbours (x,y,z) = [(x',y',z')
                      , (x',y',z') /= (x,y,z)]
 
 simulate :: (Ord a) => (a -> [a]) -> Map.Map a Bool -> Map.Map a Bool
-simulate neighbours map' = Map.fromList $ foldr go [] allNeighbours
+simulate neighbours map' = Map.fromList $ foldMap go allNeighbours
   where
     neighbourStates  = map (\k -> Map.findWithDefault False k map') . neighbours
     allNeighbours = Set.fromList $ concatMap neighbours $ Map.keys map'
-    go coord acc | Just True <- Map.lookup coord map' =
+    go coord | Just True <- Map.lookup coord map' =
                        let states = length (filter (== True) (neighbourStates coord))
                        in if states == 2 || states == 3 then
-                         acc <> [(coord, True)]
+                         [(coord, True)]
                        else
-                         acc <> [(coord, False)]
-    go coord acc = let states = length (filter (== True) (neighbourStates coord))
+                         [(coord, False)]
+    go coord = let states = length (filter (== True) (neighbourStates coord))
                    in if states == 3 then
-                        acc <> [(coord, True)]
+                        [(coord, True)]
                       else
-                        acc <> [(coord, False)]
+                        [(coord, False)]
 
 day17_1 :: IO Int
 day17_1 = do
@@ -45,7 +45,7 @@ hyperNeighbours (x,y,z,w) = [(x',y',z',w')
 
 day17_2 :: IO Int
 day17_2 = do
-    input <- lines <$> readFile "src/input17test.txt"
+    input <- lines <$> readFile "src/input17.txt"
     let numbered = zip [0..] $ fmap (zip [0..]) input
     let toCoord (y, xs) = fmap (\(x,char) -> if char == '#' then ((x,y,0,0),True) else ((x,y,0,0),False)) xs
     let res = Map.fromList $ concat $ toCoord <$> numbered
