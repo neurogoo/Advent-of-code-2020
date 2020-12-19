@@ -43,17 +43,15 @@ isValid rules = go (rules Map.! 0)
                             | otherwise = go rs ss
     go ((Or rs1 rs2):rs) s = go (rs1 <> rs) s || go (rs2 <> rs) s
 
-day19_1 :: IO ()
+day19_1 :: IO Int
 day19_1 = do
     input <- readFile "src/input19.txt"
     let Right (rules, messages) = parseFile $ T.pack input
-    print $ length $ filter (isValid rules . T.unpack) messages
-    pure ()
+    pure $ length $ filter (isValid rules . T.unpack) messages
 
-day19_2 :: IO ()
+day19_2 :: IO Int
 day19_2 = do
     input <- readFile "src/input19.txt"
     let Right (rules, messages) = parseFile $ T.pack input
     let rules' = Map.fromList [(8, [Or [Rule 42] [Rule 42, Rule 8]]), (11, [Or [Rule 42, Rule 31] [Rule 42, Rule 11, Rule 31]])] <> rules
-    print $ length $ filter (isValid rules' . T.unpack) messages
-    pure ()
+    pure $ length $ filter (isValid rules' . T.unpack) messages
